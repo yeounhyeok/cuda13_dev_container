@@ -10,10 +10,10 @@ echo "[1/3] Installing apt packages..."
 bash "$SCRIPTS_DIR/bootstrap_apt.sh"
 
 echo "[2/3] Installing Miniconda..."
-bash "$SCRIPTS_DIR/install_miniconda.sh"
+bash "$SCRIPTS_DIR/bootstrap_conda"
 
 echo "[3/3] Checking GPU visibility..."
-bash "$SCRIPTS_DIR/check_gpu.sh"
+bash "$SCRIPTS_DIR/gpu_check.sh"
 
 echo
 echo "[DONE] Initial setup completed."

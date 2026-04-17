@@ -1,0 +1,2 @@
+*.sh text eol=lf
+workspace/scripts/bootstrap_conda text eol=lf

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REQ_FILE="/workspace/requirements.apt"
+REQ_FILE="/workspace/scripts/requirements.apt"
 
 if [[ ! -f "$REQ_FILE" ]]; then
   echo "[ERROR] requirements.apt not found: $REQ_FILE"
