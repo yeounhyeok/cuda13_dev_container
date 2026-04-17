@@ -5,7 +5,7 @@ services:
     tty: true
     stdin_open: true
     working_dir: /workspace
-    restart: "no"
+    restart: "unless-stopped"
 
     deploy: # limit resources that the container can use
       resources:
