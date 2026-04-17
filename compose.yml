@@ -1,0 +1,42 @@
+services:
+  dev_cuda13:
+    image: pytorch/pytorch:2.9.0-cuda13.0-cudnn9-devel
+    container_name: ssh_cuda13
+    tty: true
+    stdin_open: true
+    working_dir: /workspace
+    restart: "no"
+
+    deploy: # limit resources that the container can use
+      resources:
+        limits:
+          memory: 128G
+          cpus: "32.0"
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0", "1", "2"]
+              capabilities: [gpu]
+
+
+    environment:
+      - NCCL_DEBUG=INFO
+      - NCCL_ASYNC_ERROR_HANDLING=1
+      - NVIDIA_VISIBLE_DEVICES=0,1,2
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,video
+      - PIP_BREAK_SYSTEM_PACKAGES=1
+      - CUDA_MODULE_LOADING=LAZY
+      - MASTER_PORT=29501
+
+    volumes:
+      - ./workspace:/workspace
+
+    ports:
+      - "7071-7080:7071-7080"
+
+    security_opt:
+      - label:disable
+    ipc: host
+    ulimits:
+      memlock: -1
+      stack: 67108864

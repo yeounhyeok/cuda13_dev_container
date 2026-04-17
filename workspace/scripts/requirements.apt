@@ -1,0 +1,12 @@
+git
+git-lfs
+tmux
+wget
+curl
+build-essential
+python3-dev
+pkg-config
+tree
+vim
+nano
+htop

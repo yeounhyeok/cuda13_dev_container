@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONDA_DIR="/workspace/.miniconda"
+INSTALLER="/workspace/miniconda.sh"
+INSTALLER_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+
+if [[ -d "$CONDA_DIR" ]]; then
+  echo "[INFO] Miniconda already exists at $CONDA_DIR"
+  exit 0
+fi
+
+wget -O "$INSTALLER" "$INSTALLER_URL"
+bash "$INSTALLER" -b -p "$CONDA_DIR"
+rm -f "$INSTALLER"
+
+echo "[OK] Miniconda installed at $CONDA_DIR"
+echo "[INFO] Use it with:"
+echo "  source $CONDA_DIR/bin/activate"
+echo "  conda --version"
