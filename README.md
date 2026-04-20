@@ -12,9 +12,10 @@ PyTorch CUDA 이미지를 기반으로 공통 시스템 설정을 Dockerfile로 
 - `workspace/scripts/requirements.apt`의 apt 패키지
 - Git LFS 시스템 초기화
 - `guest` 사용자와 기본 홈 디렉토리
+- Miniconda (`/opt/miniconda`)
 
 이미지에 포함하지 않는 것:
-- 연구별 conda 환경
+- 연구별 conda env
 - 프로젝트별 Python 패키지
 - 실험별 추가 bootstrap
 
@@ -43,17 +44,26 @@ docker exec -it ssh_cuda13 bash
 whoami
 ```
 
-### 3. conda 환경 사용
+### 3. conda 사용
 
-이 레포는 conda 자체를 이미지에 굽지 않습니다. 필요하면 컨테이너 내부 `/workspace`에서 직접 설치하거나, 프로젝트별 환경을 별도로 준비해 사용합니다.
-
-예시:
+Miniconda는 이미지에 포함되어 있으므로 바로 사용할 수 있습니다.
 
 ```bash
-# 예: Miniconda를 /workspace 아래에 수동 설치 후 사용
-source /workspace/.miniconda/bin/activate
+source /opt/miniconda/bin/activate
+conda --version
+```
+
+프로젝트별 환경은 필요할 때 따로 생성해서 사용합니다.
+
+```bash
 conda create -n myenv python=3.10 -y
 conda activate myenv
+```
+
+### 4. GPU 체크
+
+```bash
+bash /workspace/scripts/gpu_check.sh
 ```
 
 ## 파일 구조
@@ -65,7 +75,6 @@ conda activate myenv
 ├── compose.yml
 └── workspace
     └── scripts
-        ├── bootstrap_conda
         ├── gpu_check.sh
         └── requirements.apt
 ```

@@ -2,6 +2,5 @@
 !*/
 !.gitignore
 !scripts/
-!scripts/bootstrap_conda
 !scripts/gpu_check.sh
 !scripts/requirements.apt
