@@ -14,23 +14,12 @@ PyTorch CUDA 이미지를 기반으로 공통 시스템 설정을 Dockerfile로 
 - `guest` 사용자와 기본 홈 디렉토리
 - Miniconda (`/opt/miniconda`)
 
-이미지에 포함하지 않는 것:
-- 연구별 conda env
-- 프로젝트별 Python 패키지
-- 실험별 추가 bootstrap
-
 ## 사용법
 
 ### 1. 컨테이너 빌드 및 실행
 
 ```bash
-docker compose -f compose.yml up -d --build
-```
-
-호스트 사용자 ID가 다르면 아래처럼 build arg를 넘겨 bind mount 권한을 맞춥니다.
-
-```bash
-HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose -f compose.yml up -d --build
+docker compose up -d --build
 ```
 
 `/workspace`는 bind mount이므로 실제 쓰기 권한은 호스트의 소유자/권한과 build arg로 전달한 UID/GID에 의해 결정됩니다.
