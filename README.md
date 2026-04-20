@@ -10,6 +10,8 @@ PyTorch CUDA 기반 개발 컨테이너입니다.
 
 ## 사용법
 
+세부 실행 설정(컨테이너 이름, 포트, GPU, 환경변수 등)은 `compose.yml`에서 조정합니다.
+
 ### 1. 빌드 및 실행
 ```bash
 docker compose up -d --build
