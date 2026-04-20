@@ -1,6 +1,12 @@
 services:
   dev_cuda13:
-    image: pytorch/pytorch:2.9.0-cuda13.0-cudnn9-devel
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_UID: ${HOST_UID:-1000}
+        USER_GID: ${HOST_GID:-1000}
+    image: cuda13-pytorch-dev:local
     container_name: ssh_cuda13
     tty: true
     stdin_open: true

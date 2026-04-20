@@ -1,0 +1,6 @@
+.git
+.codex
+workspace/.miniconda
+workspace/miniconda.sh
+__pycache__
+*.pyc

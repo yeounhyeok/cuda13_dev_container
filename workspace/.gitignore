@@ -4,7 +4,6 @@
 
 !initial_setup.sh
 !scripts/
-!scripts/bootstrap_apt.sh
 !scripts/bootstrap_conda
 !scripts/gpu_check.sh
 !scripts/requirements.apt
