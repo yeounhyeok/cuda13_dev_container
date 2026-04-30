@@ -2,5 +2,6 @@
 !*/
 !.gitignore
 !scripts/
+!scripts/container-entrypoint.sh
 !scripts/gpu_check.sh
 !scripts/requirements.apt

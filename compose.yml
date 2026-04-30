@@ -10,7 +10,7 @@ services:
     container_name: ssh_cuda13
     tty: true
     stdin_open: true
-    working_dir: /workspace
+    working_dir: /home/guest/workspace
     restart: "unless-stopped"
 
     deploy: # limit resources that the container can use
@@ -35,13 +35,7 @@ services:
       - MASTER_PORT=29501
 
     volumes:
-      - ./workspace:/workspace
-      - vscode-server:/home/guest/.vscode-server
-      - codex-home:/home/guest/.codex
-      - npm-cache:/home/guest/.npm
-      - user-cache:/home/guest/.cache
-      - user-config:/home/guest/.config
-      - kaggle-config:/home/guest/.kaggle
+      - ./workspace:/home/guest/workspace
 
     ports:
       - "7071-7080:7071-7080"
@@ -52,11 +46,3 @@ services:
     ulimits:
       memlock: -1
       stack: 67108864
-
-volumes:
-  vscode-server:
-  codex-home:
-  npm-cache:
-  user-cache:
-  user-config:
-  kaggle-config:

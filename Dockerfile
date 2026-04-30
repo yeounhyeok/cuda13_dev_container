@@ -16,6 +16,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY workspace/scripts/requirements.apt /tmp/requirements.apt
+COPY workspace/scripts/container-entrypoint.sh /usr/local/bin/container-entrypoint
 
 RUN set -eux; \
     apt-get update; \
@@ -46,8 +47,10 @@ RUN set -eux; \
     useradd --uid "${USER_UID}" --gid "${USER_GID}" --create-home --shell /bin/bash "${USERNAME}"; \
     echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USERNAME}"; \
     chmod 0440 "/etc/sudoers.d/${USERNAME}"; \
-    mkdir -p "/home/${USERNAME}/.vscode-server" "/home/${USERNAME}/.kaggle" "/home/${USERNAME}/.cache" "/home/${USERNAME}/.config" "/home/${USERNAME}/.npm-global" /workspace; \
-    chmod 0700 "/home/${USERNAME}/.kaggle"; \
+    chmod 0755 /usr/local/bin/container-entrypoint; \
+    mkdir -p "/home/${USERNAME}/workspace" "/home/${USERNAME}/.npm-global"; \
+    rm -rf /workspace; \
+    ln -s "/home/${USERNAME}/workspace" /workspace; \
     printf 'prefix=/home/%s/.npm-global\n' "${USERNAME}" > "/home/${USERNAME}/.npmrc"; \
     { \
         echo ''; \
@@ -60,7 +63,8 @@ RUN set -eux; \
     chown -R "${USER_UID}:${USER_GID}" "/home/${USERNAME}"; \
     chown -R "${USER_UID}:${USER_GID}" "$CONDA_DIR"
 
-WORKDIR /workspace
+WORKDIR /home/${USERNAME}/workspace
 USER ${USERNAME}
 
+ENTRYPOINT ["/usr/local/bin/container-entrypoint"]
 CMD ["/bin/bash"]
