@@ -36,6 +36,7 @@ services:
 
     volumes:
       - ./workspace:/workspace
+      - vscode-server:/home/guest/.vscode-server
 
     ports:
       - "7071-7080:7071-7080"
@@ -46,3 +47,6 @@ services:
     ulimits:
       memlock: -1
       stack: 67108864
+
+volumes:
+  vscode-server:
