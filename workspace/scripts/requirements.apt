@@ -1,5 +1,8 @@
 git
 git-lfs
+ca-certificates
+gnupg
+sudo
 tmux
 wget
 curl

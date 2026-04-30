@@ -7,6 +7,8 @@ PyTorch CUDA 기반 개발 컨테이너입니다.
 - image: `cuda13-pytorch-dev:local`
 - container: `ssh_cuda13`
 - GPUs: `0,1,2`
+- user: `guest` with passwordless `sudo`
+- tools: Node.js/npm, Codex CLI, Kaggle CLI
 
 ## 사용법
 
@@ -30,7 +32,18 @@ conda --version
 
 필요한 env는 직접 생성해서 사용합니다.
 
-### 4. GPU 확인
+### 4. 기본 도구 확인
+```bash
+sudo -V
+node --version
+npm --version
+codex --version
+kaggle --version
+```
+
+Kaggle 인증 파일은 `/home/guest/.kaggle/kaggle.json`에 둡니다.
+
+### 5. GPU 확인
 ```bash
 bash /workspace/scripts/gpu_check.sh
 ```
