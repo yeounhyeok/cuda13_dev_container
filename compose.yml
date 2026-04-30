@@ -37,6 +37,11 @@ services:
     volumes:
       - ./workspace:/workspace
       - vscode-server:/home/guest/.vscode-server
+      - codex-home:/home/guest/.codex
+      - npm-cache:/home/guest/.npm
+      - user-cache:/home/guest/.cache
+      - user-config:/home/guest/.config
+      - kaggle-config:/home/guest/.kaggle
 
     ports:
       - "7071-7080:7071-7080"
@@ -50,3 +55,8 @@ services:
 
 volumes:
   vscode-server:
+  codex-home:
+  npm-cache:
+  user-cache:
+  user-config:
+  kaggle-config:
