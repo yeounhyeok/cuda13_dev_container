@@ -250,11 +250,14 @@ CSWAP_SESSION
 chmod 755 "$HOME/.local/bin/cswap-session"
 
 # 재실행해도 기존 설정 작업/자동 전환 프로세스는 유지.
-if tmux has-session -t '=cswap-auto' 2>/dev/null; then
-  echo "🔀 기존 cswap-auto tmux 세션을 유지합니다."
+if tmux has-session -t '=cswap' 2>/dev/null; then
+  echo "🔀 기존 cswap tmux 세션을 유지합니다."
+elif tmux has-session -t '=cswap-auto' 2>/dev/null; then
+  tmux rename-session -t '=cswap-auto' cswap
+  echo "🔀 기존 tmux 세션 이름을 cswap으로 변경했습니다."
 else
-  tmux -u new-session -d -s cswap-auto -n setup 'exec bash "$HOME/.local/bin/cswap-session"'
-  echo "🔀 cswap-auto tmux 세션을 시작했습니다."
+  tmux -u new-session -d -s cswap -n setup 'exec bash "$HOME/.local/bin/cswap-session"'
+  echo "🔀 cswap tmux 세션을 시작했습니다."
 fi
 
 # ------------------------------------------------------------
@@ -279,9 +282,9 @@ printf "%-14s %s\n" "Claude Swap:" "$(cswap --version)"
 
 echo
 cat <<'CSWAP_HELP'
-🔀 cswap-auto tmux 세션이 준비되어 있습니다:
-  tmux -u attach -t cswap-auto
-  (이미 tmux 안이라면: tmux switch-client -t cswap-auto)
+🔀 cswap tmux 세션이 준비되어 있습니다:
+  tmux -u attach -t cswap
+  (이미 tmux 안이라면: tmux switch-client -t cswap)
 
 세션 안에서:
   1번 → 팀 로그인 및 등록 (팀마다 반복, 같은 이메일의 여러 팀도 가능)
@@ -292,9 +295,9 @@ cat <<'CSWAP_HELP'
 Ctrl+B 를 누른 뒤 D로 나가면 SSH를 끊어도 세션은 유지됩니다.
 자동 전환은 약 60초마다 확인하며, Ctrl+C를 누르면 설정 메뉴로 돌아옵니다.
 마우스로 스크롤/창 선택이 가능하며, 새 로그인과 tmux에는 UTF-8이 적용됩니다.
-부트스트랩을 다시 실행해도 기존 cswap-auto 세션을 유지합니다.
+부트스트랩을 다시 실행해도 기존 cswap 세션을 유지합니다.
 재부팅 후에는 다음 명령으로 설정 세션을 다시 시작하세요:
-  tmux -u new-session -d -s cswap-auto 'exec bash "$HOME/.local/bin/cswap-session"'
+  tmux -u new-session -d -s cswap 'exec bash "$HOME/.local/bin/cswap-session"'
 
 설치와 팀 로그인은 각 컴퓨터/서버의 현재 사용자 기준입니다.
 CSWAP_HELP

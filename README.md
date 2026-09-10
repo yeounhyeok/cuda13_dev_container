@@ -87,7 +87,7 @@ cd /home/guest/VI001/vi005/docker_volumes/cuda13_dev_container
 | 사용자 CLI | npm의 `@latest`로 Codex CLI와 Claude Code 설치, uv 및 Claude Swap 설치·업데이트 |
 | Python 도구 환경 | Claude Swap용 Python 3.12를 uv로 관리 |
 | 셸과 tmux | `C.UTF-8`, tmux 마우스 사용, 사용자 실행 경로 설정 |
-| Claude Swap 세션 | 팀 등록 메뉴가 있는 `cswap-auto` tmux 세션 준비 |
+| Claude Swap 세션 | 팀 등록 메뉴가 있는 `cswap` tmux 세션 준비 |
 
 부트스트랩은 npm 전역 설치 경로를 `~/.local`로 설정하고, `~/.local/bin`을 `~/.profile`과 `~/.bashrc`의 `PATH`에 추가합니다. uv 도구 실행 파일과 `cswap-session`도 `~/.local/bin`에 설치합니다.
 
@@ -97,20 +97,20 @@ cd /home/guest/VI001/vi005/docker_volumes/cuda13_dev_container
 source ~/.bashrc
 ```
 
-설정 파일은 `~/.config/bootstrap/locale.sh`, `~/.config/bootstrap/tmux.conf`에 저장됩니다. 부트스트랩을 다시 실행하면 CLI를 업데이트하며, 기존 `cswap-auto` 세션은 유지합니다.
+설정 파일은 `~/.config/bootstrap/locale.sh`, `~/.config/bootstrap/tmux.conf`에 저장됩니다. 부트스트랩을 다시 실행하면 CLI를 업데이트하며, 기존 `cswap` 세션은 유지합니다. 이전 이름인 `cswap-auto` 세션만 있다면 실행 중인 작업을 유지한 채 이름을 `cswap`으로 변경합니다.
 
 ## Claude Swap 팀 등록과 자동 전환
 
 부트스트랩 완료 후 컨테이너 안에서 설정 세션에 접속합니다.
 
 ```bash
-tmux -u attach -t cswap-auto
+tmux -u attach -t cswap
 ```
 
 이미 tmux 안이라면 다음 명령을 사용합니다.
 
 ```bash
-tmux switch-client -t cswap-auto
+tmux switch-client -t cswap
 ```
 
 | 메뉴 | 동작 |
@@ -127,8 +127,8 @@ tmux switch-client -t cswap-auto
 재부팅이나 컨테이너 재시작으로 tmux 세션이 사라졌다면, 설치 파일이 있는 상태에서 다음 명령으로 메뉴 세션을 다시 만듭니다.
 
 ```bash
-tmux -u new-session -d -s cswap-auto 'exec bash "$HOME/.local/bin/cswap-session"'
-tmux -u attach -t cswap-auto
+tmux -u new-session -d -s cswap 'exec bash "$HOME/.local/bin/cswap-session"'
+tmux -u attach -t cswap
 ```
 
 ## 데이터와 사용자 설정 보관
