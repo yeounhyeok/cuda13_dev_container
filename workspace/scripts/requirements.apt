@@ -13,3 +13,6 @@ tree
 vim
 nano
 htop
+openssh-client
+
+graphviz

@@ -1,3 +1,6 @@
 workspace/*
 !workspace/scripts/
 !workspace/scripts/**
+
+# Local Compose configuration backups
+/compose.yml.bak.*

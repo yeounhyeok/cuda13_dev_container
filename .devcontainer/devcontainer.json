@@ -1,0 +1,7 @@
+{
+  "name": "vi005",
+  "dockerComposeFile": "../compose.yml",
+  "service": "dev_cuda13",
+  "workspaceFolder": "/home/guest/VI001",
+  "overrideCommand": false
+}
