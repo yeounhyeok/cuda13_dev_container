@@ -1,48 +1,76 @@
+name: vi005
 services:
   dev_cuda13:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        USER_UID: ${HOST_UID:-1000}
-        USER_GID: ${HOST_GID:-1000}
+#      args:
+#        USER_UID: ${HOST_UID:-1001}
+#        USER_GID: ${HOST_GID:-1001}
     image: cuda13-pytorch-dev:local
-    container_name: ssh_cuda13
+    container_name: vi005
     tty: true
     stdin_open: true
-    working_dir: /home/guest/workspace
+    working_dir: /home/guest/VI001
     restart: "unless-stopped"
+    group_add:
+      - "987"  # host docker gid; required to access /data/VI001 ACL
+    gpus:
+      - driver: nvidia
+        device_ids: ["0", "1", "2", "3"]
+        capabilities: [gpu]
+    devices:
+      - /dev/nvidiactl:/dev/nvidiactl
+      - /dev/nvidia0:/dev/nvidia0
+      - /dev/nvidia1:/dev/nvidia1
+      - /dev/nvidia2:/dev/nvidia2
+      - /dev/nvidia3:/dev/nvidia3
+      - /dev/nvidia-uvm:/dev/nvidia-uvm
+      - /dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools
+      - /dev/nvidia-modeset:/dev/nvidia-modeset
 
     deploy: # limit resources that the container can use
       resources:
         limits:
-          memory: 128G
-          cpus: "32.0"
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ["0", "1", "2"]
-              capabilities: [gpu]
+          memory: 192G
+          cpus: "48.0"
 
 
     environment:
       - NCCL_DEBUG=INFO
       - NCCL_ASYNC_ERROR_HANDLING=1
-      - NVIDIA_VISIBLE_DEVICES=0,1,2
+      - NVIDIA_VISIBLE_DEVICES=0,1,2,3
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility,video
+      - NVIDIA_DISABLE_REQUIRE=true
       - PIP_BREAK_SYSTEM_PACKAGES=1
       - CUDA_MODULE_LOADING=LAZY
       - MASTER_PORT=29501
 
     volumes:
       - ./workspace:/home/guest/workspace
+      - /data/VI001:/home/guest/VI001
+      - ./workspace/.state/claude-home:/home/guest/.claude
+      - ./workspace/.state/claude.json:/home/guest/.claude.json
 
     ports:
-      - "7071-7080:7071-7080"
+      - "7071-7072:7071-7072"
 
     security_opt:
       - label:disable
     ipc: host
+    pid: host
     ulimits:
       memlock: -1
       stack: 67108864
+
+
+    # attached live 2026-09-02; do not compose up just for this
+    networks:
+      default: {}
+      vilab:
+        ipv4_address: 172.30.0.15
+
+networks:
+  vilab:
+    name: vilab
+    external: true
